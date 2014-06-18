@@ -30,6 +30,7 @@ module MongoidDenormalize
                                   else
                                     self.try(from).try(method_name_for_retrieving_value)
                                   end
+          nil
         }
 
         before_save generated_method_name

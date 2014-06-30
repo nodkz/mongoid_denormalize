@@ -3,6 +3,10 @@ module MongoidDenormalize
   module Denormalize
     extend ActiveSupport::Concern
 
+    included do
+      cattr_accessor :denormalized_fields
+    end
+
     module ClassMethods
 
       # denormalize_field :vendor, from: :car_model
@@ -24,6 +28,8 @@ module MongoidDenormalize
         field full_field_name, options
 
         generated_method_name = "_generated_#{full_field_name}"
+        self.denormalized_fields ||= []
+        self.denormalized_fields << generated_method_name
         generated_method = define_method generated_method_name, ->{
           self[full_field_name] = if block
                                     instance_eval &block
